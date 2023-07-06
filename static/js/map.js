@@ -27,7 +27,7 @@ var map = L.map('map', {zoomControl: false}).setView([51.505, -0.09], 13);
 // Add the tile layer (map tiles from OpenStreetMap)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 0,
-        maxZoom: 10,
+        maxZoom: 20,
         tms: false,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
 }).addTo(map);

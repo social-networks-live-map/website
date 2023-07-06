@@ -1,3 +1,4 @@
+let pin;
 
 function loadMastodonMessages(messageIds){
   // Define the Mastodon instance URL
@@ -85,19 +86,31 @@ function formatCreationDate(creationDate) {
 function navigateToGeohash(content) {
   const geohashRegex = /https:\/\/map.decarbnow.space\/@([a-zA-Z0-9]+)\//;
   const match = content.match(geohashRegex);
-  console.log(match)
+
   if (match && match[1]) {
     const geohash = match[1];
     if (geohash) {
-          const { latitude, longitude } = decodeGeohash(geohash);
-          map.setView([latitude, longitude]);
-    }
-    const zoomLevel = 14; // Default zoom level if not specified in the URL
-    //const mapUrl = `https://map.decarbnow.space/@${geohash}/z=${zoomLevel}/ls=light,no2_2021_test,tweets`;
+      const { latitude, longitude } = decodeGeohash(geohash);
 
-    // Perform the necessary actions with the map URL, such as setting the Leaflet map view
-    //console.log(`Navigating to: ${mapUrl}`);
+      // Remove existing pin if present
+      if (pin) {
+        map.removeLayer(pin);
+      }
+
+      // Create new pin marker and add it to the map
+      pin = L.marker([latitude, longitude]).addTo(map);
+
+      // Set the Leaflet map view to the location
+      map.setView([latitude, longitude]);
+    }
   }
+
+  const zoomLevel = 14; // Default zoom level if not specified in the URL
+  // const mapUrl = `https://map.decarbnow.space/@${geohash}/z=${zoomLevel}/ls=light,no2_2021_test,tweets`;
+
+  // Perform the necessary actions with the map URL, such as setting the Leaflet map view
+  // console.log(`Navigating to: ${mapUrl}`);
 }
+
 
 }
