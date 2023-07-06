@@ -9,6 +9,6 @@ python -m venv env
 # Install required packages:
 pip install -r requirements.txt
 
-# Run dev server, served to ip:port/camsmap
+# Run dev server, served to ip:port/snlivemap
 python ./app.py
 ```
