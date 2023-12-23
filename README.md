@@ -1,14 +1,19 @@
 # Social Networks Live map
 
-## Run
-```bash
-# Create and activate virtual environment:
-python -m venv env
-. env/bin/activate
+## Description
 
-# Install required packages:
-pip install -r requirements.txt
+to be written
 
-# Run dev server, served to ip:port/snlivemap
-python ./app.py
-```
+## Run Webpage Locally
+
+This webpage can be run locally with:
+
+    npm install
+    cp config.template.json config.json # Adjust the config.json file
+    npm run map
+
+
+
+## Contribution
+
+Any contribution is welcome!

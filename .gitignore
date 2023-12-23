@@ -1,4 +1,3 @@
-sync.sh
-env
-__pycache__
-static/data
+config.json
+dist
+node_modules
