@@ -9,17 +9,6 @@ let layersList = {
         }),
         name: 'Google Satellite'
     },
-    satellite_minimap: {
-        layer: L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-            attribution: '© <a href="https://maps.google.com">Google Maps</a>, '+
-                             '<a href="https://disc.gsfc.nasa.gov/datasets/OMNO2d_003/summary?keywords=omi">NASA</a>, '+
-                             '<a href="https://earth.esa.int/web/guest/missions/esa-eo-missions/sentinel-5p">ESA/Copernicus</a>',
-            maxZoom: 20,
-            subdomains:['mt0','mt1','mt2','mt3']
-        }),
-        name: 'Google Satellite for MiniMap',
-        hidden: true
-    },
     esri: {
         layer: L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: '© <a href="http://www.esri.com/">Esri</a>, '+
@@ -96,41 +85,6 @@ let layersList = {
            subdomains:['mt0','mt1','mt2','mt3']
        }),
        name: 'Night Lights'
-    },
-    s2maps20: {
-        layer: L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2020_3857/default/g/{z}/{y}/{x}.jpg', {
-            attribution: '<a href="https://s2maps.eu">Sentinel-2 cloudless - https://s2maps.eu</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Copernicus 2020)',
-            maxZoom: 20
-        }),
-        name: 'Sentinel-2 (2020, EOX)'
-    },
-    s2maps19: {
-        layer: L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2019_3857/default/g/{z}/{y}/{x}.jpg', {
-            attribution: '<a href="https://s2maps.eu">Sentinel-2 cloudless - https://s2maps.eu</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Copernicus 2019)',
-            maxZoom: 20
-        }),
-        name: 'Sentinel-2 (2019, EOX)'
-    },
-    s2maps18: {
-        layer: L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2018_3857/default/g/{z}/{y}/{x}.jpg', {
-            attribution: '<a href="https://s2maps.eu">Sentinel-2 cloudless - https://s2maps.eu</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Copernicus 2018 &amp; 2017)',
-            maxZoom: 20
-        }),
-        name: 'Sentinel-2 (2018, EOX)'
-    },
-    s2maps17: {
-        layer: L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2017_3857/default/g/{z}/{y}/{x}.jpg', {
-            attribution: '<a href="https://s2maps.eu">Sentinel-2 cloudless - https://s2maps.eu</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Copernicus 2017)',
-            maxZoom: 20
-        }),
-        name: 'Sentinel-2 (2017, EOX)'
-    },
-    s2maps16: {
-        layer: L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg', {
-            attribution: '<a href="https://s2maps.eu">Sentinel-2 cloudless - https://s2maps.eu</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Copernicus 2016 &amp; 2017)',
-            maxZoom: 20
-        }),
-        name: 'Sentinel-2 (2016, EOX)'
     },
     empty: {
         name: 'Disabled'

@@ -1,7 +1,7 @@
 {
-  "name": "decarbnow-website",
+  "name": "sn-livemap-website",
   "version": "1.0.0",
-  "description": "website of decarbnow",
+  "description": "website of social networks live map",
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,11 +11,11 @@
     "live": "rsync -arv -e 'ssh -p 21022' dist/ decarbnow@decarbnow.space:/var/www/html/decarbnow/live/",
     "dev": "rsync -arv -e 'ssh -p 21022' dist/ decarbnow@decarbnow.abteil.org:/var/www/html/decarbnow/dev/"
   },
-  "author": "decarbnow group",
+  "author": "sn live map group",
   "license": "MIT",
   "devDependencies": {
     "@alexpavlov/geohash-js": "1",
-    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@fortawesome/fontawesome-free": "^6.5.1",
     "bootstrap": "^4.5.3",
     "choices.js": "^9.0.1",
     "clean-webpack-plugin": "3",

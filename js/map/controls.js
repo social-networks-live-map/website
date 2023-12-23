@@ -19,15 +19,6 @@ let controls = {
             { label: 'Dark', layer: layerSets.baseTiles.layers.dark, radioGroup: 'baselayers' },
             { label: 'World Population', layer: layerSets.baseTiles.layers.worldpop, radioGroup: 'baselayers' },
             { label: 'Night Lights', layer: layerSets.baseTiles.layers.nightlight, radioGroup: 'baselayers' },
-            { label: 'Yearly Sentinel 2 (EOX)',
-              collapsed: true,
-              children: [
-                { label: 'Sentinel 2 (2020, EOX)', layer: layerSets.baseTiles.layers.s2maps20, radioGroup: 'baselayers' },
-                { label: 'Sentinel 2 (2019, EOX)', layer: layerSets.baseTiles.layers.s2maps19, radioGroup: 'baselayers' },
-                { label: 'Sentinel 2 (2018, EOX)', layer: layerSets.baseTiles.layers.s2maps18, radioGroup: 'baselayers' },
-                { label: 'Sentinel 2 (2017, EOX)', layer: layerSets.baseTiles.layers.s2maps17, radioGroup: 'baselayers' },
-                { label: 'Sentinel 2 (2016, EOX)', layer: layerSets.baseTiles.layers.s2maps16, radioGroup: 'baselayers' },
-          ]}
             //{ label: 'Disabled', layer: layerSets.baseTiles.layers.empty },
             /* ... */
         ]
@@ -35,7 +26,7 @@ let controls = {
 
       let overlaysTree = [
           {
-              label: 'Tweets',
+              label: 'Social Networks News',
               layer: layerSets.tweets.layers.tweets,
           },
           {
@@ -43,68 +34,14 @@ let controls = {
               layer: layerSets.points.layers.polygons,
           },
           {
-          label: 'NO₂',
-          children: [
-            {
-                label: 'Disable',
-                collapsed: false,
-                layer: layerSets.overlays.layers.empty, radioGroup: 'NO2'
-            },
-            {
-                label: 'Yearly',
-                collapsed: true,
-                children: [
-                  //{ label: 'NO₂ 2007', layer: layerSets.overlays.layers.no2_2007, radioGroup: 'NO2'},
-                  //{ label: 'NO₂ 2011', layer: layerSets.overlays.layers.no2_2011, radioGroup: 'NO2' },
-                  //{ label: 'NO₂ 2015', layer: layerSets.overlays.layers.no2_2015, radioGroup: 'NO2' },
-                  { label: 'NO₂ 2018', layer: layerSets.overlays.layers.no2_2018, radioGroup: 'NO2' },
-                  { label: 'NO₂ 2019', layer: layerSets.overlays.layers.no2_2019, radioGroup: 'NO2' },
-                  { label: 'NO₂ 2020', layer: layerSets.overlays.layers.no2_2020, radioGroup: 'NO2' },
-                  { label: 'NO₂ 2021', layer: layerSets.overlays.layers.no2_2021, radioGroup: 'NO2' }
-                  /* ... */
-                ]
-            },
-            {
-                label: 'Monthly',
-                collapsed: true,
-                children: [
-                  { label: 'NO₂ 2019/12', layer: layerSets.overlays.layers.no2_2019_12, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/01', layer: layerSets.overlays.layers.no2_2020_01, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/02', layer: layerSets.overlays.layers.no2_2020_02, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/03', layer: layerSets.overlays.layers.no2_2020_03, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/04', layer: layerSets.overlays.layers.no2_2020_04, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/05', layer: layerSets.overlays.layers.no2_2020_05, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/06', layer: layerSets.overlays.layers.no2_2020_06, radioGroup: 'NO2'},
-                  { label: 'NO₂ 2020/07', layer: layerSets.overlays.layers.no2_2020_07, radioGroup: 'NO2'},
-                  /* ... */
-                ]
-            },
-            {
-                label: 'Test',
-                collapsed: true,
-                children: [
-                  { label: 'NO₂ 2021 Test', layer: layerSets.overlays.layers.no2_2021_test, radioGroup: 'NO2' },
-                  /* ... */
-                ]
-            }
-
-          ]
-        }, {
             label: 'Points of Interest',
             children: [
-              { label: 'Climate TRACE',
-                collapsed: false,
-                children: [
-                  { label: layerSets.points.layers.energy.options.name, layer: layerSets.points.layers.energy},
-                  { label: layerSets.points.layers.manufacturing.options.name, layer: layerSets.points.layers.manufacturing},
-                  { label: layerSets.points.layers["fossil-fuel-operations"].options.name, layer: layerSets.points.layers["fossil-fuel-operations"]}
-                ]},
-              { label: 'Other Datasets',
+              { label: 'Datasets',
                 collapsed: false,
                 children: [
                   //{ label: layerSets.points.layers["e-prtr"].options.name, layer: layerSets.points.layers["e-prtr"]},
-                  { label: layerSets.points.layers["eu-ets"].options.name, layer: layerSets.points.layers["eu-ets"]},
-                  { label: layerSets.points.layers["power-plants"].options.name, layer: layerSets.points.layers["power-plants"]},
+                  //{ label: layerSets.points.layers["eu-ets"].options.name, layer: layerSets.points.layers["eu-ets"]},
+                  //{ label: layerSets.points.layers["power-plants"].options.name, layer: layerSets.points.layers["power-plants"]},
                   { label: layerSets.points.layers["big-cities"].options.name, layer: layerSets.points.layers["big-cities"]}
                 ]},
             ]

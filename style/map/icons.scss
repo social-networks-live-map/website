@@ -36,7 +36,7 @@
         border-radius: 50%;
     }
     &.action::after {
-        background: rgb(29, 161, 242)
+        background: rgb(255, 255, 255)
     }
     &.transition::after {
         background: rgb(57, 219, 113) !important;
@@ -88,7 +88,7 @@
 }
 
 .custom-div-icon i.action {
-    color: white !important;
+    color: #5942D3 !important;
     font-size: 12px !important;
     margin: 12px auto;
     padding-top: 2px;
@@ -109,8 +109,11 @@
 
 .selected .marker-pin {
     &::after {
-        background: rgb(200, 100, 10);
+        background: #ffffff;
         opacity: 1;
+        border-color: red;
+        border-width: 1px;
+        border-style: solid;
     }
 }
 

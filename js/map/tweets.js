@@ -7,13 +7,14 @@ import 'jquery';
 import 'twitter-widgets';
 import api from './api/proxy.js';
 import twitter from './twitter.js';
+import './scripts/embed-post.js';
 
-window.toggleFunction=function(){
-  let x = $('iframe').css( "display" )
+window.toggleFunction = function () {
+    let x = $('embed-post').css("display")
     if (x === "none") {
-      $("iframe").css("display", "block")
-    } else {
-      $("iframe").css("display", "none")
+        $("embed-post").css("display", "block")
+    } else {
+        $("embed-post").css("display", "none")
     }
 };
 
@@ -25,10 +26,10 @@ window.gotoLastStoryTweet=function(id){
 function listenForTwitFrameResizes() {
     /* find all iframes with ids starting with "tweet_" */
     var tweetIframes=document.querySelectorAll("[id^='tweet_']");
-
+    console.log(tweetIframes)
     tweetIframes.forEach(element => {
         element.onload=function() {
-        this.contentWindow.postMessage({ element: this.id, query: "height" }, "https://twitframe.com");
+        this.contentWindow.postMessage({ element: this.id, query: "data-maxheight" }, "https://mastodon.social");
     };
     });
 
@@ -36,7 +37,7 @@ function listenForTwitFrameResizes() {
 
 /* listen for the return message once the tweet has been loaded */
 window.onmessage = (oe) => {
-    if (oe.origin != "https://twitframe.com"){
+    if (oe.origin != "https://mastodon.social"){
         return;
     }
     let cssHeight = 36 + 38 + 30
@@ -165,14 +166,22 @@ let manager = {
             let text = entries.join('');
         } else {
           let ids = [id];
+          let account = tweetInfo.account;          
           let entries = ids.map(tweetId => {
               let classes = ['tweet', 'loading'];
+              
               if (id == tweetId)
                   classes.push('selected');
               return `
-              <iframe border=0 frameborder=0 src="https://twitframe.com/show?url=https://twitter.com/x/status/${tweetId}&conversation=none" id="tweet_${tweetId}"></iframe>
+              <embed-post
+                data-src="https://mastodon.social/@${account}/${tweetId}"
+                data-maxheight="800"
+                data-maxwidth="800"
+                id="tweet_${tweetId}"
+                ></embed-post>
               `;
           });
+          //<iframe src="https://mastodon.social/@${account}/${tweetId}/embed" class="mastodon-embed" style="max-width: 100%; border: 0" height="600" width="400" allowfullscreen="allowfullscreen" id="tweet_${tweetId}"></iframe><script src="https://mastodon.social/embed.js" async="async"></script>
           let title = null
           let text = "<div class=\"sidebar-container\"><div style=\"text-align:center\">"
 
@@ -249,7 +258,7 @@ let manager = {
 
               text = text + "</div>"
           } else {
-            title = "Tweet: " + id
+            title = "toot: " + id
           };
 
           text = text + "</div>"
@@ -316,7 +325,7 @@ let manager = {
         manager.data.storiesarray = []
         api.getTweets().then(function(data) {
             manager.data.tweets = data;
-            let tweetOpacity = 0.3
+            let tweetOpacity = 1
 
             Object.keys(manager.data.tweets).forEach((id) => {
 

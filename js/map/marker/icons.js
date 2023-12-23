@@ -9,7 +9,7 @@ let iconsInfo = {
         desc: "Register and pinpoint polluters."
     },
     climateaction: {
-        fonticon: "nf nf-fa-twitter",
+        fonticon: "fab fa-mastodon",
         cssname: "action",
         title: "Climate Action",
         question: "Who took action?",

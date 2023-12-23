@@ -41,12 +41,12 @@ let defaultState = {
         lng: 0,
     },
     layers: [
-        'light',
-        'energy',
-        'manufacturing',
-        'fossil-fuel-operations',
+        'streets',
+        //'energy',
+        //'manufacturing',
+        //'fossil-fuel-operations',
         //'power-plants',
-        'no2_2021_test',
+        //'no2_2021_test',
         'tweets'
     ],
 }
@@ -459,7 +459,7 @@ let base = {
                         let link = 'https://map.decarbnow.space' + url.getPath()
                         navigator.clipboard.writeText(link)
                             .then(() => {
-                                alert('Map link copied to clipboard. Tweet this link to add the tweet to the map.');
+                                alert('Map link copied to clipboard. Toot this link to pin it to the map.');
                             })
                                 .catch(err => {
                                 alert('Error in copying URL: ', err);
