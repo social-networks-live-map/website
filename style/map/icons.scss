@@ -20,7 +20,7 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #fff !important;
+    background: #c5c9d4 !important;
     position: absolute;
     left: 62%;
     top: 50%;
@@ -36,7 +36,7 @@
         border-radius: 50%;
     }
     &.action::after {
-        background: rgb(255, 255, 255)
+        background: #e6e9f1
     }
     &.transition::after {
         background: rgb(57, 219, 113) !important;
@@ -107,13 +107,27 @@
     padding-top: 0px;
 }
 
+@keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+
 .selected .marker-pin {
     &::after {
-        background: #ffffff;
+        background: #e6e9f1;
         opacity: 1;
         border-color: red;
-        border-width: 1px;
+        border-width: 2px;
         border-style: solid;
+        animation: blink 2s infinite;
     }
 }
 

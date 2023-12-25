@@ -31,7 +31,7 @@ let popupoptions = {maxWidth : 350}
 
 let layersList = {
     'big-cities': {
-        url: "/cities/points.geojson",
+        url: "cities/points.geojson",
         name: "Big cities <span class='hovertext' data-hover='" + citation.bigcities + "'><i class='fa fa-info-circle'></i></span></i>",
         attr: {
             style: {

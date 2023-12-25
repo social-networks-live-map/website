@@ -8,6 +8,7 @@ import 'twitter-widgets';
 import api from './api/proxy.js';
 import twitter from './twitter.js';
 import './scripts/embed-post.js';
+import sidebar from './sidebar.js';
 
 window.toggleFunction = function () {
     let x = $('embed-post').css("display")
@@ -50,6 +51,7 @@ window.onmessage = (oe) => {
 
 };
 
+
 let manager = {
     controlwindow: null,
     activeTweet: null,
@@ -57,6 +59,7 @@ let manager = {
     autoScrolling: false,
     connectedDots: null,
     storyline: null,
+    sidebarDiv: null,
     data: {
         tweets: [],
         stories: [],
@@ -91,6 +94,30 @@ let manager = {
         manager.addEventHandlers();
     },
 
+    scrollAndActivateTweet: function(id, tweetActivated = false) {
+        let tweetDiv = $(`#tweet-${id}`);
+
+        manager.autoScrolling = true;
+        if(!tweetActivated)
+            manager.sidebarDiv.animate({
+                scrollTop: manager.sidebarDiv.scrollTop() + tweetDiv.position().top - 80
+            }, 600, function() {
+                setTimeout(function() {
+                    manager.autoScrolling = false;
+                }, 1);
+            })
+        else
+            manager.sidebarDiv.animate({
+                scrollTop: manager.sidebarDiv.scrollTop()
+            }, 0, function() {
+                setTimeout(function() {
+                    manager.autoScrolling = false;
+                }, 1);
+            })
+
+        tweetDiv.parent().find('.tweet.selected').removeClass('selected');
+        tweetDiv.addClass('selected');
+    },
     activateMarker: function(id) {
         let marker = manager.data.tweetIdToMarker[id.toString()];
 
@@ -143,9 +170,12 @@ let manager = {
         let state = {...tweetInfo.state};
 
         base.setState(state);
-        manager.openSidebar(id)
+        //manager.openSidebar(id)
         manager.activeTweet = id;
         manager.activeStory = tweetInfo.story;
+        let class_ch = document.querySelector('.crosshair')
+        class_ch.classList.add('hidden')
+        sidebar.displayTweets(id);
     },
 
     openSidebar: function(id) {
@@ -176,7 +206,6 @@ let manager = {
               <embed-post
                 data-src="https://mastodon.social/@${account}/${tweetId}"
                 data-maxheight="800"
-                data-maxwidth="800"
                 id="tweet_${tweetId}"
                 ></embed-post>
               `;
@@ -269,7 +298,7 @@ let manager = {
 
           title = title + "<a class=\"minimize\" onclick='toggleFunction()'>" + "_" + "</a>"
 
-          base.showControlwindow(manager, text, title)
+          base.showSidebarContent(manager, text, title)
           listenForTwitFrameResizes()
         }
     },
@@ -278,6 +307,7 @@ let manager = {
         manager.deactivateMarkers();
         manager.activeTweet = null;
         manager.activeStory = null;
+        clearSearch();
         url.pushState();
         let class_ch = document.querySelector('.crosshair')
         class_ch.classList.add('hidden')
@@ -325,6 +355,7 @@ let manager = {
         manager.data.storiesarray = []
         api.getTweets().then(function(data) {
             manager.data.tweets = data;
+
             let tweetOpacity = 1
 
             Object.keys(manager.data.tweets).forEach((id) => {

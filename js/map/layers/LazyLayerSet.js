@@ -7,26 +7,22 @@ let latLngs = [];
 let country_i = 1
 // credits: https://github.com/turban/Leaflet.Mask
 L.Mask = L.Polygon.extend({
-	options: {
-		stroke: false,
-		color: '#333',
-		fillOpacity: 0.3,
-		clickable: false,
-
-		outerBounds: new L.LatLngBounds([-90, -360], [90, 360])
-	},
-
-	initialize: function (latLngs, options) {
-
-         var outerBoundsLatLngs = [
-			this.options.outerBounds.getSouthWest(),
-			this.options.outerBounds.getNorthWest(),
-			this.options.outerBounds.getNorthEast(),
-			this.options.outerBounds.getSouthEast()
-		];
+    options: {
+        stroke: false,
+        color: '#333',
+        fillOpacity: 0.5, // Set the default opacity for the mask
+        clickable: false,
+        outerBounds: new L.LatLngBounds([-90, -360], [90, 360])
+    },
+    initialize: function (latLngs, options) {
+        var outerBoundsLatLngs = [
+            this.options.outerBounds.getSouthWest(),
+            this.options.outerBounds.getNorthWest(),
+            this.options.outerBounds.getNorthEast(),
+            this.options.outerBounds.getSouthEast()
+        ];
         L.Polygon.prototype.initialize.call(this, [outerBoundsLatLngs, latLngs], options);
-	},
-
+    },
 });
 
 L.mask = function (latLngs, options) {
@@ -71,39 +67,39 @@ L.LazyLayerGroup = L.LayerGroup.extend({
             if (self.options.transform)
                 data = self.options.transform(data)
             // console.log(self.id)
-            // if(self.id.startsWith("countries!")){
-            //   country_i = country_i + 1
-            //   //var obj = L.geoJson(data, {...self.options.parent.defaultAttr, ...self.options.attr})
-            //   //console.log(data)
-            //   var coordinates = data.features[0].geometry.coordinates[0];
-            //   //console.log(coordinates)
-            //
-            //   // coordinates.forEach((item, i) => {
-            //   //   latLngs.push(new L.LatLng(coordinates[i][1], coordinates[i][0]));
-            //   // });
-            //   var strng = JSON.stringify(coordinates)
-            //
-            //   var object = JSON.parse(strng);
-            //
-            //   // Extract the values of the object into an array
-            //   var array = Object.values(object);
-            //   var array2 = array.flat(3)
-            //
-            //
-            //   array2 = array2.reduce(function(result, value, index, array) {
-            //     if (index % 2 === 0)
-            //       result.push(array.slice(index, index + 2));
-            //     return result;
-            //   }, []);
-            //
-            //   array2.forEach((item, i) => {
-            //     latLngs.push(new L.LatLng(array2[i][1], array2[i][0]));
-            //   });
-            //   if(base.country_n == country_i)
-            //       self.addLayer(L.mask(latLngs))
-            // } else {
-            //   self.addLayer(L.geoJson(data, {...self.options.parent.defaultAttr, ...self.options.attr}))
-            // }
+            if(self.id.startsWith("countries!")){
+              country_i = country_i + 1
+              //var obj = L.geoJson(data, {...self.options.parent.defaultAttr, ...self.options.attr})
+              //console.log(data)
+              var coordinates = data.features[0].geometry.coordinates[0];
+              //console.log(coordinates)
+            
+              // coordinates.forEach((item, i) => {
+              //   latLngs.push(new L.LatLng(coordinates[i][1], coordinates[i][0]));
+              // });
+              var strng = JSON.stringify(coordinates)
+            
+              var object = JSON.parse(strng);
+            
+              // Extract the values of the object into an array
+              var array = Object.values(object);
+              var array2 = array.flat(3)
+            
+            
+              array2 = array2.reduce(function(result, value, index, array) {
+                if (index % 2 === 0)
+                  result.push(array.slice(index, index + 2));
+                return result;
+              }, []);
+            
+              array2.forEach((item, i) => {
+                latLngs.push(new L.LatLng(array2[i][1], array2[i][0]));
+              });
+              if(base.country_n == country_i)
+                  self.addLayer(L.mask(latLngs))
+            } else {
+              self.addLayer(L.geoJson(data, {...self.options.parent.defaultAttr, ...self.options.attr}))
+            }
             self.addLayer(L.geoJson(data, {...self.options.parent.defaultAttr, ...self.options.attr}))
 
             self.loaded = true

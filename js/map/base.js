@@ -13,6 +13,7 @@ import 'jquery';
 import 'leaflet-easybutton';
 import './scripts/leaflet.magnifyingglass.js';
 import 'leaflet-minimap';
+import sidebar from './sidebar.js';
 
 let GeoJSON = require('geojson');
 
@@ -30,7 +31,6 @@ const iconDefault = icon({
   tooltipAnchor: [16, -28],
   shadowSize: [41, 41]
 });
-
 
 Marker.prototype.options.icon = iconDefault;
 
@@ -89,7 +89,8 @@ let base = {
         base.map = map('map', {
             ...defaultOptions,
         });
-
+        
+        sidebar.init();
         tweets.init();
         tweets.loadMarkers();
         twitter.init();
@@ -143,14 +144,14 @@ let base = {
         base.addControls();
         controls.addControls();
 
-        // let miniMap = new L.Control.MiniMap(layerSets.baseTiles.layers.satellite_minimap, {
-        //     position: "topleft",
-        //     zoomLevelOffset: 0,
-        //     toggleDisplay: true,
-        //     minimized: true,
-        //     width: 400,
-        //     height: 490,
-        // }).addTo(base.map);
+        let miniMap = new L.Control.MiniMap(layerSets.baseTiles.layers.satellite_minimap, {
+            position: "bottomright",
+            zoomLevelOffset: -6,
+            toggleDisplay: true,
+            minimized: false,
+            width: 180,
+            height: 180,
+        }).addTo(base.map);
         // var map = L.map('map', {
         //     center: [0, 0],
         //     zoom: 5,
@@ -203,7 +204,7 @@ let base = {
         base.showLayers(layers);
 
         if(base.slowFlyTo){
-            base.map.flyTo(state.center, state.zoom, {noMoveStart: true});
+            base.map.flyTo(state.center, state.zoom, {noMoveStart: true, duration: 2});
         } else {
             base.map.flyTo(state.center, state.zoom, {noMoveStart: true, duration: 1});
             base.slowFlyTo = true
@@ -251,6 +252,37 @@ let base = {
         return module.controlwindow;
     },
 
+    showSidebarContent: function(module, content = null, title = null) {
+        let sbs = [tweets];
+    
+        sbs.forEach((m) => {
+            if (m != module) {
+                m.controlwindow.hide();
+            }
+        });
+    
+        const showSidebarElement = document.getElementById('sidebar');
+    
+        if (!showSidebarElement) {
+            console.error('Element with id "idebar" not found.');
+            return null;
+        }
+    
+        if (content !== null) {
+            // Update the content of the specified element
+            showSidebarElement.innerHTML = content;
+        }
+        console.log(showSidebarElement)
+        if (title !== null) {
+            // Optionally update the title of the specified element
+            // document.getElementById('show-sidebar-title').innerHTML = title;
+        }
+    
+        // Optionally, you might have other logic related to showing/hiding elements
+    
+        return module.controlwindow;
+    },
+    
 
     showPopup: function(module, content = null) {
         let sbs = [tweets]
@@ -447,7 +479,17 @@ let base = {
         }).addTo(base.map);
 
         L.Control.geocoder({
-            position: 'bottomleft'
+            position: 'bottomleft',
+            defaultMarkGeocode: false
+        }).on('markgeocode', function(e) {
+            var bbox = e.geocode.bbox;
+            var location = e.geocode.center;
+        
+            // Calculate the zoom level based on the bounding box and map size
+            var zoom = base.map.getBoundsZoom(bbox);
+        
+            // Set the view to the location with the calculated zoom level
+            base.map.setView(location, zoom);
         }).addTo(base.map);
 
         let shareUrlButton = L.easyButton({
@@ -600,12 +642,12 @@ let base = {
         });
 
         base.map.on("contextmenu", function(e) {
-            base.tweetBoxActive = true;
-            tweets.closeSidebar();
+            //base.tweetBoxActive = true;
+            //tweets.closeSidebar();
             base.map.flyTo(e.latlng);
-            twitter.showTweetBox(e);
-            let class_ch = document.querySelector('.crosshair')
-            class_ch.classList.add('hidden')
+            //twitter.showTweetBox(e);
+            //let class_ch = document.querySelector('.crosshair')
+            //class_ch.classList.add('hidden')
         });
 
         base.map.on("zoomend", function () {
