@@ -11,8 +11,8 @@ let api = {
         switch(api.settings.format) {
             case 'python':
                 api.getTweets = function() {
-                    return $.get(`${api.settings.server}/mastodon/`).then(function(data) {
-                        return data.mastodon
+                    return $.get(`${api.settings.server}/tweets/`).then(function(data) {
+                        return data.tweets
                     });
                 };
             break;

@@ -22,17 +22,22 @@ let sidebar = {
         document.getElementById('term-search').addEventListener('input', (event) => {
             searchTerm = event.target.value;
             visibleTweets = 10; // Reset visible tweets count
-            //document.getElementById('tweets').innerHTML = ''; // Clear previous tweets
+            document.getElementById('tweets').innerHTML = ''; // Clear previous tweets
             sidebar.displayTweets(searchTerm);
         });
-        
+
         api.init();
 
-        window.addEventListener('scroll', sidebar.handleScroll);
+        const sidebarElement = document.getElementById('sidebar'); // Replace 'sidebar' with the actual ID or class of your sidebar element
+
+        if (sidebarElement) {
+            sidebarElement.addEventListener('scroll', sidebar.handleScroll);
+        }
+
         //tweetData = sidebar.fetchTweets();
 
         //tweetData = api.getTweets();
-        
+
         api.getTweets().then(function (data) {
             tweetData = data;
             //tweetData = tweetData.tweets; // Extract the 'tweets' property
@@ -48,13 +53,30 @@ let sidebar = {
                 sidebar.displayTweets(idFromUrl);
                 const headlineElement = document.getElementById(idFromUrl);
                 if (headlineElement) {
-                    headlineElement.scrollIntoView({ behavior: 'smooth' });
+                    headlineElement.scrollIntoView({
+                        block: 'center',
+                        behavior: 'smooth'
+                    });
                 }
             } else {
                 // Default behavior without ID in the URL
                 sidebar.displayTweets();
             }
         });
+    },
+
+    selectTweet: function (id) {
+        visibleTweets = 10; // Reset visible tweets count
+        searchTerm = id
+        document.getElementById('tweets').innerHTML = ''; // Clear previous tweets
+        sidebar.displayTweets(id);
+        const headlineElement = document.getElementById(id);
+        if (headlineElement) {
+            headlineElement.scrollIntoView({
+                block: 'center',
+                behavior: 'smooth'
+            });
+        }
     },
 
     extractHeadTweets: function (tweets) {
@@ -68,45 +90,69 @@ let sidebar = {
     createTweetElement: function (id, tweet, isHeadTweet) {
         const div = document.createElement('div');
         let isActiveTweet = id === tweets.activeTweet;
-    
+
         div.className = `tweet-container ${isHeadTweet ? '' : 'story-indent'}`;
-        
+
         // Use a regular expression to capture the URL and its content
-        const linkMatch = /<a.*?href=["'](.*?)["'].*?>(.*?)<\/a>/g.exec(tweet.content);
-        // If a link is found, extract the URL and text
-        const linkUrl = linkMatch ? linkMatch[1] : '';
-        const linkText = linkMatch ? linkMatch[2] : tweet.content;
-        // Shorten the link text to a length of 100
-        const shortenedLinkText = linkText.length > 100 ? linkText.substring(0, 100) + '...' : linkText;
-    
-        // Create a new link with the shortened text
-        const shortenedLink = `<a href="${linkUrl}" target="_blank" rel="nofollow noopener noreferrer" translate="no">${shortenedLinkText}</a>`;
-        
-        // Replace the original link in the content with the shortened link
-        const contentWithShortenedLink = tweet.content.replace(linkText, "link");
+        // const linkMatch = /<a.*?href=["'](.*?)["'].*?>(.*?)<\/a>/g.exec(tweet.content);
+        // // If a link is found, extract the URL and text
+        // const linkUrl = linkMatch ? linkMatch[1] : '';
+        // const linkText = linkMatch ? linkMatch[2] : tweet.content;
+        // // Shorten the link text to a length of 100
+        // const shortenedLinkText = linkText.length > 100 ? linkText.substring(0, 100) + '...' : linkText;
+
+        // // Create a new link with the shortened text
+        // const shortenedLink = `<a href="${linkUrl}" target="_blank" rel="nofollow noopener noreferrer" translate="no">${shortenedLinkText}</a>`;
+
+        // // Replace the original link in the content with the shortened link
+        // const contentWithShortenedLink = tweet.content.replace(linkText, "link");
         //<h2 id="${id}">Toot ID: ${id}</h2>
+        // ${tweet.hashtags != "" ? `<p>Hashtags:  ${tweet.hashtags.join(', ')}</p>` : ''}
+        // ${tweet.story ? `<p>Story ID: ${tweet.story}</p>` : ''}
         div.innerHTML = `
-            <div class="message ${isActiveTweet ? 'active' : ''}">
-            ${tweet.hashtags != "" ? `<p>Hashtags:  ${tweet.hashtags.join(', ')}</p>` : ''}
-            <div class="message-content">${contentWithShortenedLink}</div>
-            <div class="message-footnote">@${tweet.account}, ${tweet.timestamp}</div>
-            ${tweet.story ? `<p>Story ID: ${tweet.story}</p></div>` : ''}
+            <div id="${id}" class="message ${isActiveTweet ? 'active' : ''}">
+            <div class="tweet-header">
+            <div class="tweet-avatar">
+                <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" alt="User Avatar">
+            </div>
+            <div class="tweet-username">
+            <div class="display-name">decarbNOW</div>
+            <div class="account-name">@decarbnow</div>
+             </div>
+            </div>
+            
+            <div class="tweet-content">
+            <p>This is a single tweet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget risus bibendum, laoreet nisi eget, suscipit massa.</p>
+            <p>How do they do it? 🚲</p></div>
+
+            <div class="message-footnote">@mastodon.social, 2022-04-26 01:39</div></div>
         `;
-    
-        // Add event listeners for mouse enter and leave to change the background color
-        div.addEventListener('mouseenter', function () {
-            div.classList.add('tweet-hover');
-        });
-    
-        div.addEventListener('mouseleave', function () {
-            div.classList.remove('tweet-hover');
-        });
-    
+        /* div.innerHTML = `
+            <div id="${id}" class="message ${isActiveTweet ? 'active' : ''}">
+                <div class="tweet-header">
+                    <div class="tweet-avatar">
+                        <img src="${tweet.avatar}" alt="User Avatar">
+                    </div>
+                    <div class="tweet-username">
+                        <div class="display-name">${tweet.display_name}</div>
+                        <div class="account-name">@${tweet.account}</div>
+                    </div>
+                </div>
+                <div class="tweet-content">
+                    ${tweet.content}
+                </div>
+                <div class="message-footnote">
+                    @mastodon.social, ${tweet.timestamp}
+                </div>
+            </div>
+        `; */
+
         // Add a click event listener to call manager.show(id) when the container is clicked
         div.addEventListener('click', function () {
             tweets.show(id);
         });
-    
+
+
         return div;
     },
 
@@ -133,15 +179,14 @@ let sidebar = {
     },
 
     displayTweets: function (searchTerm = '') {
-        document.getElementById('tweets').innerHTML = ''; // Clear previous tweets
-
+        //document.getElementById('tweets').innerHTML = ''; // Clear previous tweets
         const tweetsContainer = document.getElementById('tweets');
         let filteredTweets;
 
         if (searchTerm.startsWith('#')) {
             // Hashtag search
             filteredTweets = sidebar.filterTweetsByHashtag(tweetData, searchTerm.slice(1));
-        //} else if (searchTerm.startsWith('@')) {
+            //} else if (searchTerm.startsWith('@')) {
             // Hashtag search
             //filteredTweets = sidebar.filterTweetsByAccount(tweetData, searchTerm.slice(1));
         } else if (searchTerm) {
@@ -152,6 +197,7 @@ let sidebar = {
         } else {
             filteredTweets = sidebar.extractHeadTweets(tweetData);
         }
+        console.log(tweetData)
 
         const tweetsToDisplay = filteredTweets.slice(0, visibleTweets);
 
@@ -167,15 +213,29 @@ let sidebar = {
             });
         });
 
-        visibleTweets += 3;
+        visibleTweets += 10;
     },
 
-    handleScroll: async function () {
+    handleScroll2: async function () {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             sidebar.displayTweets(searchTerm);
         }
     },
 
+    handleScroll: function () {
+        const sidebarElement = document.getElementById('sidebar'); // Replace 'sidebar' with the actual ID or class of your sidebar element
+
+        if (sidebarElement) {
+            const scrollTop = sidebarElement.scrollTop;
+            const scrollHeight = sidebarElement.scrollHeight;
+            const clientHeight = sidebarElement.clientHeight;
+
+            if (scrollTop + clientHeight >= scrollHeight-25) {
+                // User has reached the bottom of the sidebar
+                sidebar.displayTweets(searchTerm);
+            }
+        }
+    },
 
     clearSearch: function () {
         const searchInput = document.getElementById('term-search');

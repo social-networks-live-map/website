@@ -18,6 +18,8 @@
             const searchInput = document.getElementById('term-search');
             searchInput.value = '';
             searchInput.dispatchEvent(new Event('input'));
+            var sidebar = document.getElementById('sidebar');
+            sidebar.scrollTop = 0;
         }
     </script>
     <div id="map">

@@ -175,7 +175,7 @@ let manager = {
         manager.activeStory = tweetInfo.story;
         let class_ch = document.querySelector('.crosshair')
         class_ch.classList.add('hidden')
-        sidebar.displayTweets(id);
+        sidebar.selectTweet(id);
     },
 
     openSidebar: function(id) {
@@ -309,6 +309,7 @@ let manager = {
         manager.activeStory = null;
         clearSearch();
         url.pushState();
+        base.showLayer("tweets");
         let class_ch = document.querySelector('.crosshair')
         class_ch.classList.add('hidden')
         class_ch.classList.remove('hidden')

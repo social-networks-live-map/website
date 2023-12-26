@@ -144,10 +144,10 @@ let base = {
         base.addControls();
         controls.addControls();
 
-        let miniMap = new L.Control.MiniMap(layerSets.baseTiles.layers.satellite_minimap, {
+        let miniMap = new L.Control.MiniMap(layerSets.baseTiles.layers.satellite_minimap, {
             position: "bottomright",
             zoomLevelOffset: -6,
-            toggleDisplay: true,
+            toggleDisplay: false,
             minimized: false,
             width: 180,
             height: 180,
@@ -475,11 +475,11 @@ let base = {
         }).addTo(base.map)
 
         L.control.zoom({
-            position: 'bottomleft'
+            position: 'topright'
         }).addTo(base.map);
 
         L.Control.geocoder({
-            position: 'bottomleft',
+            position: 'topright',
             defaultMarkGeocode: false
         }).on('markgeocode', function(e) {
             var bbox = e.geocode.bbox;
@@ -491,6 +491,37 @@ let base = {
             // Set the view to the location with the calculated zoom level
             base.map.setView(location, zoom);
         }).addTo(base.map);
+
+        let removePolygonsButton = L.easyButton({
+            states: [{
+                    stateName: 'fa-clear-trash',        // name the state
+                    icon:      'fa-trash',               // and define its properties
+                    title:     'Clear drawlayer',      // like its title
+                    onClick: function(btn, map) {       // and its callback
+                        if(tweets.data.polygons){
+                            if (confirm('Are you sure you want to remove all your self-created drawings?')) {
+                                base.layers["polygons"].clearLayers();
+                                tweets.data.polygons = null
+                                url.pushState();
+                            } else {
+                                // Do nothing!
+                                return;
+                            }
+                        } else {
+                            return;
+                        }
+
+
+
+                        //btn.state('fa-cleared-trash');    // change state on click!
+                    }
+            }]
+        });
+
+        removePolygonsButton.setPosition('bottomleft').addTo( base.map );
+
+        let drawControl = new L.Control.Draw(drawOptions);
+        base.map.addControl(drawControl);
 
         let shareUrlButton = L.easyButton({
             states: [{
@@ -530,36 +561,7 @@ let base = {
 
         homeButton.setPosition('bottomleft').addTo( base.map );
 
-        let removePolygonsButton = L.easyButton({
-            states: [{
-                    stateName: 'fa-clear-trash',        // name the state
-                    icon:      'fa-trash',               // and define its properties
-                    title:     'Clear drawlayer',      // like its title
-                    onClick: function(btn, map) {       // and its callback
-                        if(tweets.data.polygons){
-                            if (confirm('Are you sure you want to remove all your self-created drawings?')) {
-                                base.layers["polygons"].clearLayers();
-                                tweets.data.polygons = null
-                                url.pushState();
-                            } else {
-                                // Do nothing!
-                                return;
-                            }
-                        } else {
-                            return;
-                        }
 
-
-
-                        //btn.state('fa-cleared-trash');    // change state on click!
-                    }
-            }]
-        });
-
-        removePolygonsButton.setPosition('bottomleft').addTo( base.map );
-
-        let drawControl = new L.Control.Draw(drawOptions);
-        base.map.addControl(drawControl);
     },
 
     addEventHandlers: function() {
